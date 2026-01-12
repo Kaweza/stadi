@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Breggamusicz | Entertainment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+ 
+
+
+  <style>
+    body { background: #f8f9fa; font-family: Arial, sans-serif; }
+
+    /* Navbar */
+    .navbar-brand { font-weight: bold; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+    .navbar-brand img { height: 100px; max-width: 120%; }
+
+    /* Section titles */
+    section h4 { font-weight: bold; margin-bottom: 20px; }
+
+    /* Music & Artist Images */
+    .artist-img { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; }
+    .music-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+
+    /* Hover links */
+    .entry-title a,
+    .meta-category a { color: #e60000; text-decoration: none; font-weight: 600; }
+    .entry-title a:hover,
+    .meta-category a:hover { color: #b80000; text-decoration: none; }
+
+    /* Responsive adjustments */
+    @media(max-width: 768px) {
+      .music-card img { height: 150px; }
+      .artist-img { width: 80px; height: 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/}">
+      <img th:src="@{/images/brandz.png}" alt="ShuttaMusic Logo"> Bregga
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" th:href="@{/}">HOME</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/new_audio}">AUDIO</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/gospel}">GOSPEL</a></li>
+        <li class="nav-item"><a class="nav-link active" th:href="@{/entertainment}">ENTERTAINMENT</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/video}">VIDEO</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/contact}">CONTACT</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{login}">LOGIN</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container my-5">
+  <div class="row">
+
+    <!-- MAIN CONTENT / ENTERTAINMENT -->
+    <div class="col-lg-8 col-md-12">
+
+      <!-- PAGE HEADER -->
+      <div class="mb-4 text-center">
+        <h3 class="mb-2 fw-bold">Entertainment 🎬</h3>
+        <p class="text-muted">
+          Explore trending movies, celebrity news, videos, and entertainment stories from across Africa and beyond.
+        </p>
+      </div>
+
+      <!-- ENTERTAINMENT LIST -->
+      <div class="row g-4" th:if="${entertainments != null}">
+        <div class="col-12 col-sm-6 col-md-6" th:each="ent : ${entertainments}">
+          <div class="card h-100 shadow-sm p-2">
+
+            <a th:href="@{/entertainment/{id}(id=${ent.id})}" class="text-decoration-none">
+              <div class="d-flex align-items-center">
+
+                <!-- LEFT: Thumbnail Image -->
+                <img th:src="@{'/uploads/images/' + ${ent.imageUrl}}"
+                     th:alt="${ent.title}"
+                     style="width:80px; height:80px; object-fit:cover; border-radius:6px; margin-right:12px;">
+
+                <!-- RIGHT: Title & Date -->
+                <div class="flex-grow-1">
+                  <h6 class="mb-1 fw-bold" th:text="${ent.title}" style="color:red;"></h6>
+                  <small class="text-muted d-block"
+                         th:text="${#temporals.format(ent.datePosted,'dd MMM yyyy, HH:mm')}">
+                  </small>
+                </div>
+
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Message if no entertainments -->
+      <div class="text-center mt-3" th:if="${#lists.isEmpty(entertainments)}">
+        <p class="text-muted">No entertainment posts available.</p>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+
+      <!-- SEARCH ENTERTAINMENT -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">Search Entertainment</h5>
+        </div>
+        <div class="card-body">
+          <form th:action="@{/entertainment/search}" method="get">
+            <div class="input-group">
+              <input type="text" name="query" class="form-control" placeholder="Type here to search..." required>
+              <button class="btn btn-danger" type="submit">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- FEATURED ENTERTAINMENT POSTS -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">Featured Posts</h5>
+        </div>
+        <div class="card-body p-2">
+
+          <div th:each="fp : ${featuredEntertainments}" class="d-flex mb-3">
+            <a th:href="@{/entertainment/{id}(id=${fp.id})}">
+              <img th:src="@{'/uploads/images/' + ${fp.imageUrl}}"
+                   style="width:60px; height:60px; object-fit:cover; border-radius:4px;"
+                   th:alt="${fp.title}">
+            </a>
+            <div class="ms-2">
+              <h6 class="mb-0" style="font-size:0.9rem; color:red;" th:text="${fp.title}"></h6>
+              <small class="text-muted d-block"
+                     th:text="${#temporals.format(fp.datePosted,'dd MMM yyyy')}"></small>
+            </div>
+          </div>
+
+          <!-- Message if no featured posts -->
+          <div th:if="${#lists.isEmpty(featuredEntertainments)}">
+            <p class="text-muted mb-0">No featured posts yet.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div> <!-- /RIGHT SIDEBAR -->
+
+  </div> <!-- /.row -->
+</div>
+
+<!-- CSS for shake effect -->
+<style>
+  .shake-on-hover {
+    transition: transform 0.2s;
+  }
+  .shake-on-hover:hover {
+    transform: rotate(-2deg) translateX(2px);
+    animation: shake 0.3s;
+  }
+  @keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    20% { transform: translate(-1px, -2px) rotate(-1deg); }
+    40% { transform: translate(-3px, 0px) rotate(1deg); }
+    60% { transform: translate(3px, 2px) rotate(0deg); }
+    80% { transform: translate(1px, -1px) rotate(1deg); }
+    100% { transform: translate(0px, 1px) rotate(0deg); }
+  }
+</style>
+
+		<!-- Footer -->
+				<footer class="bg-dark text-light pt-4 mt-5">
+				    <div class="container">
+				        <div class="row">
+
+				            <!-- About Section -->
+				            <div class="col-md-4 mb-3">
+				                <h5>About</h5>
+				                <p>
+				                    Your music platform description goes here. Stream and download your favorite songs, explore new artists, and enjoy both audio and video content.
+				                </p>
+				            </div>
+
+				            <!-- Quick Links -->
+				            <div class="col-md-4 mb-3">
+				                <h5>Quick Links</h5>
+				                <ul class="list-unstyled">  
+				                  <li><a th:href="@{privacy}" class="text-light text-decoration-none">Privacy</a></li>
+				                    <li><a th:href="@{/contact}" class="text-light text-decoration-none">Contact</a></li>
+				                </ul>
+				            </div>
+							<div class="col-md-4 mb-3">
+							<h4>Popular Artists</h4>
+							      <ul class="artist-links">
+									<a href="/artist?name=Diamond Platnumz">Diamond Platnumz</a> |
+									    <a href="/artist?name=Rayvanny">Rayvanny</a> |
+									    <a href="/artist?name=Mboso">Mbosso</a>  |
+										<a href="/artist?name=Ali kiba">Ali kiba</a>  |
+										<a href="/artist?name=Zuchu">Zuchu</a>  |
+										<a href="/artist?name=Marioo">Marioo</a>  |
+										<a href="/artist?name=Harmonize">Harmonize</a>  |
+							     </ul>
+								 </div>
+
+				        </div>
+
+				        <hr class="bg-light">
+
+				        <!-- Copyright -->
+				        <div class="text-center pb-3">
+				            &copy; <span id="year"></span> MusicPlatform. All Rights Reserved.
+				        </div>
+				    </div>
+				</footer>
+
+				<script>
+				    // Dynamic year
+				    document.getElementById('year').textContent = new Date().getFullYear();
+				</script>
+
+<!-- Bootstrap JS -->
+<script>
+  // Dynamically set the current year
+  document.getElementById("current-year").textContent = new Date().getFullYear();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

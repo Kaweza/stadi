@@ -1,0 +1,321 @@
+
+	<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	  <meta charset="UTF-8">
+	   <title th:text="${artistName} + ' Songs'">Artist Songs</title>
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	  <!-- Bootstrap CSS -->
+	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+	  <style>
+	    body {
+	      background: #f8f9fa;
+	      font-family: Arial, sans-serif;
+	    }
+
+	    /* Navbar */
+	    .navbar-brand {
+	      font-weight: bold;
+	      font-size: 1.5rem;
+	      display: flex;
+	      align-items: center;
+	      gap: 10px;
+	    }
+
+	    .navbar-brand img {
+	      height: 100px;
+	      max-width: 120%;
+	    }
+
+	    /* Search Section */
+	    .search-section {
+	      background: linear-gradient(to right, #000, #222);
+	      color: white;
+	      padding: 60px 20px;
+	      text-align: center;
+	    }
+
+	    .search-section input {
+	      max-width: 500px;
+	      width: 100%;
+	      margin: 0 auto;
+	      border-radius: 50px;
+	    }
+
+	    /* Footer */
+	    footer {
+	      background: #000;
+	      color: #fff;
+	      padding: 20px 0;
+	      margin-top: 40px;
+	    }
+
+	    /* Section titles */
+	    section h4 {
+	      font-weight: bold;
+	      margin-bottom: 20px;
+	    }
+
+	    /* Music & Artist Images */
+	    .artist-img {
+	      width: 100px;
+	      height: 100px;
+	      object-fit: cover;
+	      border-radius: 50%;
+	    }
+
+	    .music-card img {
+	      width: 100%;
+	      height: 200px;
+	      object-fit: cover;
+	      border-radius: 10px;
+	    }
+
+	    /* Responsive adjustments */
+	    @media(max-width: 992px) {
+	      .navbar-brand {
+	        font-size: 1.2rem;
+	      }
+	      .search-section {
+	        padding: 40px 15px;
+	      }
+	      .music-card img {
+	        height: 180px;
+	      }
+	    }
+
+	    @media(max-width: 768px) {
+	      .artist-img {
+	        width: 80px;
+	        height: 80px;
+	      }
+
+	      .music-card img {
+	        height: 150px;
+	      }
+
+	      .search-section h2 {
+	        font-size: 1.5rem;
+	      }
+
+	      .navbar-brand img {
+	        height: 40px;
+	      }
+	    }
+
+	    @media(max-width: 576px) {
+	      .search-section {
+	        padding: 30px 10px;
+	      }
+
+	      .search-section input {
+	        max-width: 100%;
+	        font-size: 0.9rem;
+	      }
+
+	      .navbar-nav .nav-link {
+	        font-size: 0.9rem;
+	      }
+	    }
+		
+		
+	  </style>
+	</head>
+	<body>
+
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	  <div class="container">
+	    <a class="navbar-brand" th:href="@{/}">
+	      <img th:src="@{/images/brandz.png}" alt="ShuttaMusic Logo"> Bregga
+	    </a>
+
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+
+	    <div class="collapse navbar-collapse" id="menu">
+	      <ul class="navbar-nav ms-auto">
+	        <li class="nav-item"><a class="nav-link active" th:href="@{/}">HOME</a></li>
+	        <li class="nav-item"><a class="nav-link" th:href="@{/new_audio}">AUDIO</a></li>
+	        <li class="nav-item"><a class="nav-link" th:href="@{/gospel}">GOSPEL</a></li>
+	        <li class="nav-item"><a class="nav-link" th:href="@{/entertainment}">ENTERTAINMENT</a></li>
+	        <li class="nav-item"><a class="nav-link" th:href="@{/video}">VIDEO</a></li>
+	        <li class="nav-item"><a class="nav-link" th:href="@{/contact}">CONTACT</a></li>
+	        <li class="nav-item"><a class="nav-link" th:href="@{login}">LOGIN</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+	<div class="container my-5">
+	  <div class="row">
+
+	    <!-- LEFT COLUMN: Artist Songs -->
+	    <div class="col-lg-8 col-md-12">
+
+	      <!-- PAGE HEADER -->
+	      <h2 class="mb-3" th:text="'All Songs by ' + ${artistName}">All Songs by Artist</h2>
+
+	      <!-- SONG LIST -->
+	      <div class="row g-4" th:if="${songs != null}">
+	        <div class="col-12 col-sm-6 col-md-6" th:each="song : ${songs}">
+	          <div class="card h-100 shadow-sm p-2">
+
+	            <a th:href="@{'/uploads/songs/' + ${song.songFile}}" target="_blank" class="text-decoration-none">
+	              <div class="d-flex align-items-center">
+
+	                <!-- LEFT: Artist Image -->
+	                <img th:src="@{'/uploads/images/' + ${song.artistImage}}"
+	                     th:alt="${song.title}"
+	                     style="width:80px; height:80px; object-fit:cover; border-radius:6px; margin-right:12px;">
+
+	                <!-- RIGHT: Title & Artist Name -->
+	                <div class="flex-grow-1">
+	                  <small class="d-block fw-bold" th:text="${song.artistName}" style="color:red;"></small>
+	                  <h6 class="mb-1" th:text="${song.title}" style="color:red;"></h6>
+	                  <small class="text-muted" th:text="${song.songType}"></small>
+	                </div>
+
+	              </div>
+	            </a>
+
+	            <!-- AUDIO / VIDEO PLAYER -->
+	            <div class="mt-2">
+	              <div th:if="${song.songType == 'AUDIO'}">
+	                <audio controls th:src="@{'/uploads/songs/' + ${song.songFile}}" class="w-100 mt-2"></audio>
+	              </div>
+	              <div th:if="${song.songType == 'VIDEO'}">
+	                <video controls th:src="@{'/uploads/songs/' + ${song.songFile}}" class="w-100 mt-2"></video>
+	              </div>
+	            </div>
+
+	            <!-- DOWNLOAD BUTTON -->
+	            <a th:href="@{'/uploads/songs/' + ${song.songFile}}" download class="btn btn-sm btn-danger mt-2">
+	              <i class="bi bi-download"></i> Download
+	            </a>
+
+	          </div>
+	        </div>
+	      </div>
+
+	      <!-- No Songs Message -->
+	      <div class="text-center mt-3" th:if="${#lists.isEmpty(songs)}">
+	        <p class="text-muted">No songs found for this artist.</p>
+	      </div>
+
+	    </div>
+
+	    <!-- RIGHT COLUMN: Sidebar -->
+	    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+
+	      <!-- SEARCH BOX -->
+	      <div class="card mb-4 shadow-sm">
+	        <div class="card-header bg-dark text-white">
+	          <h5 class="mb-0">Search Music</h5>
+	        </div>
+	        <div class="card-body p-3">
+	          <form th:action="@{/search}" method="get" class="d-flex">
+	            <input type="text" name="query" class="form-control me-2" placeholder="Type here to search..." required>
+	            <button class="btn btn-danger" type="submit">
+	              <i class="bi bi-search"></i>
+	            </button>
+	          </form>
+	        </div>
+	      </div>
+
+	      <!-- FEATURED SONGS -->
+	      <div class="card shadow-sm">
+	        <div class="card-header bg-dark text-white">
+	          <h5 class="mb-0">Featured Songs</h5>
+	        </div>
+	        <div class="card-body p-2">
+
+	          <!-- Loop over top 5 featured songs -->
+	          <div th:each="featured : ${songs.subList(0, songs.size() > 5 ? 5 : songs.size())}" class="d-flex mb-3">
+	            <a th:href="@{'/uploads/songs/' + ${featured.songFile}}" target="_blank">
+	              <img th:src="@{'/uploads/images/' + ${featured.artistImage}}"
+	                   style="width:60px; height:60px; object-fit:cover; border-radius:4px;" 
+	                   th:alt="${featured.title}">
+	            </a>
+	            <div class="ms-2">
+	              <h6 class="mb-0" style="font-size:0.9rem; color:red;" th:text="${featured.title}">Song Title</h6>
+	              <small class="text-muted d-block" th:text="${featured.artistName}">Artist Name</small>
+	            </div>
+	          </div>
+
+	          <!-- Message if no featured songs -->
+	          <div th:if="${#lists.isEmpty(songs)}">
+	            <p class="text-muted mb-0">No featured songs yet.</p>
+	          </div>
+
+	        </div>
+	      </div>
+
+	    </div> <!-- /RIGHT COLUMN -->
+
+	  </div> <!-- /.row -->
+	</div> <!-- /CONTAINER -->
+
+<!-- Footer -->
+				<footer class="bg-dark text-light pt-4 mt-5">
+				    <div class="container">
+				        <div class="row">
+
+				            <!-- About Section -->
+				            <div class="col-md-4 mb-3">
+				                <h5>About</h5>
+				                <p>
+				                    Your music platform description goes here. Stream and download your favorite songs, explore new artists, and enjoy both audio and video content.
+				                </p>
+				            </div>
+
+				            <!-- Quick Links -->
+				            <div class="col-md-4 mb-3">
+				                <h5>Quick Links</h5>
+				                <ul class="list-unstyled">  
+				                    <li><a th:href="@{privacy}" class="text-light text-decoration-none">Privacy</a></li>
+				                    <li><a th:href="@{/contact}" class="text-light text-decoration-none">Contact</a></li>
+				                </ul>
+				            </div>
+							<div class="col-md-4 mb-3">
+							<h4>Popular Artists</h4>
+							      <ul class="artist-links">
+									<a href="/artist?name=Diamond Platnumz">Diamond Platnumz</a> |
+									    <a href="/artist?name=Rayvanny">Rayvanny</a> |
+									    <a href="/artist?name=Mboso">Mbosso</a>  |
+										<a href="/artist?name=Ali kiba">Ali kiba</a>  |
+										<a href="/artist?name=Zuchu">Zuchu</a>  |
+										<a href="/artist?name=Marioo">Marioo</a>  |
+										<a href="/artist?name=Harmonize">Harmonize</a>  |
+							     </ul>
+								 </div>
+
+				        </div>
+
+				        <hr class="bg-light">
+
+				        <!-- Copyright -->
+				        <div class="text-center pb-3">
+				            &copy; <span id="year"></span> MusicPlatform. All Rights Reserved.
+				        </div>
+				    </div>
+				</footer>
+
+				<script>
+				    // Dynamic year
+				    document.getElementById('year').textContent = new Date().getFullYear();
+				</script>
+
+<!-- Bootstrap JS -->
+<script>
+  // Dynamically set the current year
+  document.getElementById("current-year").textContent = new Date().getFullYear();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+>
+

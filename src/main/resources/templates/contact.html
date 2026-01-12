@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Breggamusicz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Navbar */
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .navbar-brand img {
+      height: 100px;
+      max-width: 120%;
+    }
+
+    /* Search Section */
+    .search-section {
+      background: linear-gradient(to right, #000, #222);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .search-section input {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 50px;
+    }
+
+    /* Footer */
+    footer {
+      background: #000;
+      color: #fff;
+      padding: 20px 0;
+      margin-top: 40px;
+    }
+
+    /* Section titles */
+    section h4 {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    /* Music & Artist Images */
+    .artist-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .music-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    /* Responsive adjustments */
+    @media(max-width: 992px) {
+      .navbar-brand {
+        font-size: 1.2rem;
+      }
+      .search-section {
+        padding: 40px 15px;
+      }
+      .music-card img {
+        height: 180px;
+      }
+    }
+
+    @media(max-width: 768px) {
+      .artist-img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .music-card img {
+        height: 150px;
+      }
+
+      .search-section h2 {
+        font-size: 1.5rem;
+      }
+
+      .navbar-brand img {
+        height: 40px;
+      }
+    }
+
+    @media(max-width: 576px) {
+      .search-section {
+        padding: 30px 10px;
+      }
+
+      .search-section input {
+        max-width: 100%;
+        font-size: 0.9rem;
+      }
+
+      .navbar-nav .nav-link {
+        font-size: 0.9rem;
+      }
+	  
+    }
+	/* Remove underline & keep links red */
+	.entry-title a,
+	.meta-category a {
+	    color: #e60000;        /* red color */
+	    text-decoration: none; /* remove underline */
+	    font-weight: 600;
+	}
+
+	/* Hover effect */
+	.entry-title a:hover,
+	.meta-category a:hover {
+	    color: #b80000;        /* darker red on hover */
+	    text-decoration: none;
+	}
+	
+	
+	.contact-box {
+	  transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	.contact-box:hover {
+	  transform: translateY(-5px);
+	  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+	}
+	.list-inline-item a {
+	  display: inline-block;
+	  margin: 0 10px;
+	  padding: 5px 15px;
+	  background: #ff4d4d;
+	  color: #fff;
+	  border-radius: 20px;
+	  text-decoration: none;
+	  transition: background 0.3s;
+	}
+	.list-inline-item a:hover {
+	  background: #ff1a1a;
+	}
+
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/}">
+      <img th:src="@{/images/brandz.png}" alt="ShuttaMusic Logo"> Bregga
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" th:href="@{/}">HOME</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/new_audio}">AUDIO</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/gospel}">GOSPEL</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/entertainment}">ENTERTAINMENT</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/video}">VIDEO</a></li>
+        <li class="nav-item"><a class="nav-link active" th:href="@{/contact}">CONTACT</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{login}">LOGIN</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container my-5">
+  <div class="row">
+
+    <!-- MAIN COLUMN: Contact Content -->
+    <div class="col-12">
+      <main class="main-box main-box-single">
+
+        <article class="vce-page page type-page status-publish hentry">
+
+          <!-- Page Header -->
+          <header class="entry-header mb-4 text-center">
+            <h1 class="entry-title entry-title-page">Contact Us</h1>
+          </header>
+
+          <!-- Contact Description -->
+          <div class="entry-content page-content mb-5">
+            <p>
+              Thank you for your interest in <strong>ShuttamusicZ</strong>, your ultimate destination for music streaming and downloads. 
+              We value your questions, feedback, and inquiries. Feel free to reach out to us through any of the following channels:
+            </p>
+          </div>
+
+          <!-- Contact Info Grid -->
+          <div class="row text-center text-md-start mb-5">
+
+            <!-- Customer Support -->
+            <div class="col-md-6 mb-4">
+              <div class="contact-box p-3 border rounded shadow-sm h-100">
+                <h4>Customer Support</h4>
+                <ul class="list-unstyled mt-3">
+                  <li>Email: 
+                    <a th:href="'mailto:' + ${supportEmail}" 
+                       th:text="${supportEmail}" 
+                       style="color: red; text-decoration: none;">
+                    </a>
+                  </li>
+                  <li>WhatsApp: <strong th:text="${whatsAppNumber}"></strong></li>
+                  <li>Live Chat: Available on our website during business hours</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- General Inquiries -->
+            <div class="col-md-6 mb-4">
+              <div class="contact-box p-3 border rounded shadow-sm h-100">
+                <h4>General Inquiries</h4>
+                <ul class="list-unstyled mt-3">
+                  <li>Email: <a href="mailto:info@shuttamusicz.com" style="color: red; text-decoration: none">info@shuttamusicz.com</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Artist Support -->
+            <div class="col-md-6 mb-4">
+              <div class="contact-box p-3 border rounded shadow-sm h-100">
+                <h4>Artist Support</h4>
+                <p>If you’re an artist looking for assistance with song submission, uploading tracks, or have questions related to your music distribution, we’re here to help!</p>
+                <ul class="list-unstyled mt-3">
+                  <li>Email: <a href="mailto:artistsupport@shuttamusicz.com" style="color: red; text-decoration: none">artistsupport@shuttamusicz.com</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Business Inquiries -->
+            <div class="col-md-6 mb-4">
+              <div class="contact-box p-3 border rounded shadow-sm h-100">
+                <h4>Business Inquiries</h4>
+                <ul class="list-unstyled mt-3">
+                  <li>Email: <a href="mailto:business@shuttamusicz.com" style="color: red; text-decoration: none">business@shuttamusicz.com</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="col-12 mb-4">
+              <div class="contact-box p-3 border rounded shadow-sm text-center">
+                <h4>Connect With Us</h4>
+                <ul class="list-inline mt-3">
+                  <li class="list-inline-item"><a href="https://www.facebook.com/shuttamusicz" target="_blank">Facebook</a></li>
+                  <li class="list-inline-item"><a href="https://www.instagram.com/shuttamusicz" target="_blank">Instagram</a></li>
+                  <li class="list-inline-item"><a href="https://twitter.com/shuttamusicz" target="_blank">Twitter</a></li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Song Submission & Takedown Instructions -->
+          <div class="entry-content page-content">
+            <h4>Artist Song Submission</h4>
+            <p>To distribute your music on ShuttamusicZ, follow these steps:</p>
+            <ol>
+              <li>Ensure your music meets our submission guidelines, including audio/video quality and content standards.</li>
+              <li>Prepare song information: title, artist name, genre, release date, and cover art.</li>
+              <li>Email your submission to <a href="mailto:submissions@shuttamusicz.com" style="color: red; text-decoration: none">submissions@shuttamusicz.com</a> with the subject line: "Song Submission – [Artist Name]". Include the song as an attachment or a downloadable link.</li>
+            </ol>
+
+            <h4>Song Takedown Request</h4>
+            <p>If you’re a rights holder and need to request a takedown of a song from our platform, please:</p>
+            <ol>
+              <li>Email <a href="mailto:copyright@shuttamusicz.com" style="color: red; text-decoration: none">copyright@shuttamusicz.com</a> with subject: "Takedown Request – [Song Title]". Include:
+                <ul>
+                  <li>Your contact information</li>
+                  <li>Proof of ownership or copyright</li>
+                  <li>A clear explanation for the request</li>
+                </ul>
+              </li>
+            </ol>
+            <p>We review all takedown requests promptly in accordance with our policies and applicable laws.</p>
+          </div>
+
+        </article>
+      </main>
+    </div> <!-- /MAIN COLUMN -->
+
+  </div> <!-- /ROW -->
+</div> <!-- /CONTAINER -->
+
+		<!-- Footer -->
+				<footer class="bg-dark text-light pt-4 mt-5">
+				    <div class="container">
+				        <div class="row">
+
+				            <!-- About Section -->
+				            <div class="col-md-4 mb-3">
+				                <h5>About</h5>
+				                <p>
+				                    Your music platform description goes here. Stream and download your favorite songs, explore new artists, and enjoy both audio and video content.
+				                </p>
+				            </div>
+
+				            <!-- Quick Links -->
+				            <div class="col-md-4 mb-3">
+				                <h5>Quick Links</h5>
+				                <ul class="list-unstyled">  
+				                 <li><a th:href="@{privacy}" class="text-light text-decoration-none">Privacy</a></li>>
+				                    <li><a th:href="@{/contact}" class="text-light text-decoration-none">Contact</a></li>
+				                </ul>
+				            </div>
+							<div class="col-md-4 mb-3">
+							<h4>Popular Artists</h4>
+							      <ul class="artist-links">
+									<a href="/artist?name=Diamond Platnumz">Diamond Platnumz</a> |
+									    <a href="/artist?name=Rayvanny">Rayvanny</a> |
+									    <a href="/artist?name=Mboso">Mbosso</a>  |
+										<a href="/artist?name=Ali kiba">Ali kiba</a>  |
+										<a href="/artist?name=Zuchu">Zuchu</a>  |
+										<a href="/artist?name=Marioo">Marioo</a>  |
+										<a href="/artist?name=Harmonize">Harmonize</a>  |
+							     </ul>
+								 </div>
+
+				        </div>
+
+				        <hr class="bg-light">
+
+				        <!-- Copyright -->
+				        <div class="text-center pb-3">
+				            &copy; <span id="year"></span> MusicPlatform. All Rights Reserved.
+				        </div>
+				    </div>
+				</footer>
+
+				<script>
+				    // Dynamic year
+				    document.getElementById('year').textContent = new Date().getFullYear();
+				</script>
+
+<!-- Bootstrap JS -->
+<script>
+  // Dynamically set the current year
+  document.getElementById("current-year").textContent = new Date().getFullYear();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
